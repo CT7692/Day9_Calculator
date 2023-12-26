@@ -65,8 +65,7 @@ def initial_operation(operation_dictionary, prompt, new_prompt):
   operation = operation_validator(prompt)
   n2 = num_validator(new_prompt)
   answer = 0
-  clear = div_check(operation, n2)
-  if clear:
+  if clear := div_check(operation, n2):
     calculate = operation_dictionary[operation]
     answer = calculate(n1, n2)
     print(f"{n1} {operation} {n2} = {answer}")
@@ -78,8 +77,7 @@ def continuous(val, dictionary, op_prompt, next_prompt):
   new_operation = operation_validator(op_prompt)
   new_num = num_validator(next_prompt)
   answer = 0
-  clear = div_check(new_operation, new_num)
-  if clear:
+  if clear := div_check(new_operation, new_num):
     calculate = dictionary[new_operation]
     answer = calculate(val, new_num)
     print(f"{val} {new_operation} {new_num} = {answer}")
@@ -100,14 +98,12 @@ op_prompt = "Pick a mathematical operation: "
 next_prompt = "Next Number: "
 value = initial_operation(operations, op_prompt, next_prompt)
 yes_no_prompt = f"Keep calculating with {value}? {y} or {n}: "
-keep_going = yes_no_validator(y, n, yes_no_prompt)
 
-if keep_going == y:
+if (keep_going := yes_no_validator(y, n, yes_no_prompt)) == y:
   still_working = True
   while still_working:
     value = continuous(value, operations, op_prompt, next_prompt)
     yes_no_prompt = f"Keep calculating with {value}? {y} or {n}: "
-    keep_going = yes_no_validator(y, n, yes_no_prompt)
-    if keep_going == n:
+    if (keep_going := yes_no_validator(y, n, yes_no_prompt)) == n:
       still_working = False
       print("See ya!")
